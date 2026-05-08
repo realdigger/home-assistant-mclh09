@@ -1,0 +1,52 @@
+{
+  "title": "Life Control MCLH-09 BLE",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Life Control MCLH-09 BLE",
+        "description": "Add one or more BLE MAC addresses. One device per line. Supported formats: `AA:BB:CC:DD:EE:FF`, `AA:BB:CC:DD:EE:FF; Name`, `Name; AA:BB:CC:DD:EE:FF`.",
+        "data": {
+          "devices": "Devices",
+          "scan_interval": "Polling interval, minutes",
+          "max_attempts": "BLE connection attempts",
+          "raw_soil": "Publish raw soil value instead of calibrated percent"
+        }
+      }
+    },
+    "error": {
+      "invalid_devices": "Device list is invalid. Check MAC addresses, duplicates and line format."
+    },
+    "abort": {
+      "single_instance_allowed": "Only one Life Control MCLH-09 BLE integration instance is allowed. Add more devices in integration options.",
+      "already_configured": "Life Control MCLH-09 BLE is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Life Control MCLH-09 BLE options",
+        "description": "Edit device list and polling settings.",
+        "data": {
+          "devices": "Devices",
+          "scan_interval": "Polling interval, minutes",
+          "max_attempts": "BLE connection attempts",
+          "raw_soil": "Publish raw soil value instead of calibrated percent"
+        }
+      }
+    },
+    "error": {
+      "invalid_devices": "Device list is invalid. Check MAC addresses, duplicates and line format."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temperature": {"name": "Temperature"},
+      "humidity": {"name": "Air humidity"},
+      "soil": {"name": "Soil moisture"},
+      "illuminance": {"name": "Illuminance"},
+      "battery": {"name": "Battery"},
+      "rssi": {"name": "RSSI"},
+      "failures": {"name": "BLE read failures"}
+    }
+  }
+}

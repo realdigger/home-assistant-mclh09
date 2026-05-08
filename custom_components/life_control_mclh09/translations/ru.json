@@ -1,0 +1,52 @@
+{
+  "title": "Life Control MCLH-09 BLE",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Life Control MCLH-09 BLE",
+        "description": "Добавьте один или несколько BLE MAC-адресов. Одно устройство на строку. Форматы: `AA:BB:CC:DD:EE:FF`, `AA:BB:CC:DD:EE:FF; Название`, `Название; AA:BB:CC:DD:EE:FF`.",
+        "data": {
+          "devices": "Устройства",
+          "scan_interval": "Интервал опроса, минут",
+          "max_attempts": "Попытки BLE-подключения",
+          "raw_soil": "Публиковать сырое значение влажности почвы вместо процента"
+        }
+      }
+    },
+    "error": {
+      "invalid_devices": "Список устройств некорректен. Проверьте MAC-адреса, дубли и формат строк."
+    },
+    "abort": {
+      "single_instance_allowed": "Допускается только один экземпляр интеграции. Дополнительные устройства добавьте в настройках интеграции.",
+      "already_configured": "Life Control MCLH-09 BLE уже настроена."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Параметры Life Control MCLH-09 BLE",
+        "description": "Измените список устройств и параметры опроса.",
+        "data": {
+          "devices": "Устройства",
+          "scan_interval": "Интервал опроса, минут",
+          "max_attempts": "Попытки BLE-подключения",
+          "raw_soil": "Публиковать сырое значение влажности почвы вместо процента"
+        }
+      }
+    },
+    "error": {
+      "invalid_devices": "Список устройств некорректен. Проверьте MAC-адреса, дубли и формат строк."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temperature": {"name": "Температура"},
+      "humidity": {"name": "Влажность воздуха"},
+      "soil": {"name": "Влажность почвы"},
+      "illuminance": {"name": "Освещенность"},
+      "battery": {"name": "Батарея"},
+      "rssi": {"name": "RSSI"},
+      "failures": {"name": "Ошибки чтения BLE"}
+    }
+  }
+}

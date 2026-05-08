@@ -1,0 +1,16 @@
+force_update:
+  name: Force update
+  description: Immediately poll all configured Life Control MCLH-09 devices or one MAC address.
+  fields:
+    entry_id:
+      name: Config entry ID
+      description: Optional Home Assistant config entry ID. Leave empty to search all entries.
+      required: false
+      selector:
+        text:
+    mac:
+      name: MAC address
+      description: Optional BLE MAC address of one configured MCLH-09 device.
+      required: false
+      selector:
+        text:
