@@ -1,12 +1,14 @@
 {
   "domain": "life_control_mclh09",
   "name": "Life Control MCLH-09 BLE",
-  "after_dependencies": ["bluetooth_adapters"],
-  "dependencies": ["bluetooth_adapters"],
-  "codeowners": [],
+  "version": "0.1.0",
+  "documentation": "https://github.com/realdigger/home-assistant-mclh09",
+  "issue_tracker": "https://github.com/realdigger/home-assistant-mclh09/issues",
+  "codeowners": ["@realdigger"],
   "config_flow": true,
-  "documentation": "https://github.com/dvb6666/esphome-components",
   "iot_class": "local_polling",
-  "requirements": ["bleak-retry-connector>=4.4.3"],
-  "version": "0.1.0"
+  "integration_type": "hub",
+  "dependencies": ["bluetooth"],
+  "after_dependencies": ["bluetooth_adapters"],
+  "requirements": ["bleak-retry-connector>=4.4.3"]
 }
