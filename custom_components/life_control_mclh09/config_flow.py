@@ -1,6 +1,7 @@
 """Config flow for Life Control MCLH-09 BLE integration."""
 
 from __future__ import annotations
+from homeassistant.helpers import selector
 
 import re
 from typing import Any
@@ -87,7 +88,9 @@ def build_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
     defaults = defaults or {}
     return vol.Schema(
         {
-            vol.Required(CONF_DEVICES, default=defaults.get(CONF_DEVICES, "")): str,
+            vol.Required(CONF_DEVICES, default=defaults.get(CONF_DEVICES, "")): selector.TextSelector(
+                selector.TextSelectorConfig(multiline=True)
+            ),
             vol.Required(CONF_SCAN_INTERVAL, default=defaults.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL_MINUTES)): vol.All(vol.Coerce(int), vol.Range(min=1, max=1440)),
             vol.Required(CONF_MAX_ATTEMPTS, default=defaults.get(CONF_MAX_ATTEMPTS, DEFAULT_MAX_ATTEMPTS)): vol.All(vol.Coerce(int), vol.Range(min=1, max=10)),
             vol.Required(CONF_RAW_SOIL, default=defaults.get(CONF_RAW_SOIL, DEFAULT_RAW_SOIL)): bool,
