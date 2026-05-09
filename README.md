@@ -71,3 +71,7 @@ data:
 ## Notes
 
 The parser and calibration tables are ported from the ESPHome MCLH-09 gateway implementation by dvb6666.
+
+## Brand images
+
+The package includes local Home Assistant brand images in `custom_components/life_control_mclh09/brand/`.
