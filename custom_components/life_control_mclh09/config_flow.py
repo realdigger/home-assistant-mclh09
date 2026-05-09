@@ -1,7 +1,6 @@
 """Config flow for Life Control MCLH-09 BLE integration."""
 
 from __future__ import annotations
-from homeassistant.helpers import selector
 
 import re
 from typing import Any
@@ -10,6 +9,7 @@ import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.core import callback
+from homeassistant.helpers import selector
 
 from .const import (
     CONF_DEVICES,
@@ -138,14 +138,12 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @callback
     def async_get_options_flow(config_entry: config_entries.ConfigEntry) -> config_entries.OptionsFlow:
         """Create the options flow."""
-        return OptionsFlow(config_entry)
+        return OptionsFlow()
 
 
 class OptionsFlow(config_entries.OptionsFlow):
     """Handle options for Life Control MCLH-09 BLE."""
 
-    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
-        self.config_entry = config_entry
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None):
         """Manage options."""

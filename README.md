@@ -1,180 +1,73 @@
-# Home Assistant MCLH-09 BLE
+# Life Control MCLH-09 BLE for Home Assistant
 
-Custom Home Assistant integration for reading data from Life Control MCLH-09 BLE plant sensors.
-
-The integration allows you to add multiple BLE MAC addresses and periodically read sensor data from each device.
+Custom integration for reading Life Control MCLH-09 BLE plant sensors directly from Home Assistant.
 
 ## Features
 
-- Multiple Life Control MCLH-09 devices
-- Active BLE polling
-- Temperature sensor
-- Air humidity sensor
-- Soil moisture sensor
-- Light level sensor
-- Battery sensor
-- RSSI sensor
-- BLE read error counter
-- Manual update service
-- Optional raw soil moisture value
-
-## Requirements
-
-- Home Assistant with Bluetooth support
-- A Bluetooth adapter supported by Home Assistant, or an ESPHome Bluetooth Proxy
-- Life Control MCLH-09 BLE plant sensor devices
-
-For reliable operation, an ESPHome Bluetooth Proxy placed close to the sensors is recommended.
+- Multiple MCLH-09 BLE MAC addresses in one integration entry.
+- Active GATT polling.
+- Sensors per device:
+  - temperature
+  - air humidity
+  - soil moisture
+  - illuminance
+  - battery
+  - RSSI
+  - BLE read failures
+- Optional raw soil reading instead of calibrated percent.
+- Service `life_control_mclh09.force_update`.
 
 ## Installation
 
-### Manual installation
-
-Copy the integration folder:
+Copy the folder:
 
 ```text
 custom_components/life_control_mclh09
 ```
 
-to your Home Assistant configuration directory:
+to:
 
 ```text
 /config/custom_components/life_control_mclh09
 ```
 
-Then restart Home Assistant.
+Restart Home Assistant.
 
-### HACS custom repository
+## Setup
 
-After publishing this repository on GitHub, it can be added to HACS as a custom repository:
-
-```text
-HACS → Integrations → Custom repositories
-```
-
-Repository URL:
+1. Make sure the built-in Home Assistant Bluetooth integration works.
+2. For stable reads, use an ESPHome Bluetooth Proxy near the MCLH-09 sensors.
+3. Go to **Settings → Devices & services → Add integration**.
+4. Search for **Life Control MCLH-09 BLE**.
+5. Add devices, one per line:
 
 ```text
-https://github.com/realdigger/home-assistant-mclh09/
-```
-
-Category:
-
-```text
-Integration
-```
-
-## Configuration
-
-After installation and restart:
-
-```text
-Settings → Devices & services → Add integration → Life Control MCLH-09 BLE
-```
-
-Add one or more devices using their BLE MAC addresses.
-
-Example:
-
-```text
-AA:BB:CC:DD:EE:FF; Ficus
+AA:BB:CC:DD:EE:FF; Basil
 11:22:33:44:55:66; Orchid
 ```
 
-You can also specify only the MAC address:
+Supported line formats:
 
 ```text
 AA:BB:CC:DD:EE:FF
+AA:BB:CC:DD:EE:FF; Name
+Name; AA:BB:CC:DD:EE:FF
 ```
 
-In that case, the integration will generate a default device name.
-
-## Device address format
-
-Each line contains one device.
-
-Supported formats:
-
-```text
-MAC_ADDRESS
-MAC_ADDRESS; Device name
-```
-
-Examples:
-
-```text
-AA:BB:CC:DD:EE:FF
-AA:BB:CC:DD:EE:FF; Kitchen plant
-```
-
-## Services
-
-### Force update
-
-The integration provides a service for forcing an immediate data refresh:
+## Force update service
 
 ```yaml
 service: life_control_mclh09.force_update
 ```
 
+One device:
+
+```yaml
+service: life_control_mclh09.force_update
+data:
+  mac: "AA:BB:CC:DD:EE:FF"
+```
+
 ## Notes
 
-Life Control MCLH-09 devices are read using active BLE polling. This means Home Assistant needs to establish a BLE connection to each device during every update cycle.
-
-Because BLE connections are limited and can be unstable depending on adapter quality, distance, interference, and proxy placement, avoid using very short polling intervals when adding many devices.
-
-Recommended initial polling interval:
-
-```text
-5–10 minutes
-```
-
-## Troubleshooting
-
-### Device does not update
-
-Check the following:
-
-- The MAC address is correct.
-- The device is within Bluetooth range.
-- The battery is not empty.
-- Home Assistant Bluetooth is working.
-- ESPHome Bluetooth Proxy is online, if used.
-- The update interval is not too short for the number of devices.
-
-### Some devices update, others fail
-
-This is usually caused by BLE connection limits, weak signal, or polling too frequently. Increase the update interval or add another Bluetooth Proxy closer to the sensors.
-
-### RSSI is low
-
-Move the Bluetooth adapter or ESPHome Bluetooth Proxy closer to the sensor.
-
-## Repository
-
-GitHub repository:
-
-```text
-https://github.com/realdigger/home-assistant-mclh09/
-```
-
-Home Assistant integration domain:
-
-```text
-life_control_mclh09
-```
-
-## Credits
-
-Parts of the BLE protocol handling were implemented with reference to:
-
-```text
-https://github.com/dvb6666/esphome-components
-```
-
-## License
-
-This project is licensed under the GNU General Public License v3.0.
-
-Parts of the BLE protocol handling were implemented with reference to
-dvb6666/esphome-components, which is also licensed under GPL-3.0.
+The parser and calibration tables are ported from the ESPHome MCLH-09 gateway implementation by dvb6666.
