@@ -145,13 +145,20 @@ class MCLH09Sensor(CoordinatorEntity[MCLH09Coordinator], SensorEntity):
 
     @property
     def available(self) -> bool:
-        """Return true when the device was read successfully and this sensor has a value."""
+        """Return true when the sensor has a last known value.
+
+        BLE plant sensors may be reachable only intermittently. Keeping the
+        last successful value available prevents short read failures from
+        turning measurement entities into unavailable and creating gaps in
+        Home Assistant history graphs. Read failures are still exposed via the
+        diagnostic failures sensor and the last_error attribute.
+        """
         state = self.coordinator.data.get(self._mac) if self.coordinator.data else None
         if state is None:
             return False
         if self.entity_description.key == "failures":
             return True
-        return super().available and state.available and self.native_value is not None
+        return super().available and self.native_value is not None
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
