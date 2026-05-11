@@ -30,11 +30,23 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     coordinator = MCLH09Coordinator(hass, entry)
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
-    await coordinator.async_config_entry_first_refresh()
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
     _async_register_services(hass)
+
+    # Do not block config entry setup with active BLE/GATT reads.
+    # Polling several sensors can take longer than Home Assistant's setup
+    # watchdog timeout when devices are far away or temporarily unreachable.
+    # Entities are created immediately, and the first refresh runs in the
+    # background; the last-known-value logic keeps entities stable after the
+    # first successful read.
+    refresh_task = hass.async_create_task(
+        coordinator.async_request_refresh(),
+        name=f"{DOMAIN}_{entry.entry_id}_initial_refresh",
+    )
+    entry.async_on_unload(refresh_task.cancel)
+
     return True
 
 
